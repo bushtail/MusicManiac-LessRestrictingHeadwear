@@ -19,7 +19,7 @@ class LessRestrictingHelmets {
             if (itemDB[item]._parent == "5a341c4086f77401f2541505") {
                 if (this.config.allowHeadPhonesOnAllHelmets && itemDB[item]._props.BlocksEarpiece) {
                     itemDB[item]._props.BlocksEarpiece = false;
-                    logger.info(itemDB[item]._props.Name + " - " + itemDB[item]._props.BlocksEarpiece);
+                    //logger.info(itemDB[item]._props.Name + " - " + itemDB[item]._props.BlocksEarpiece);
                     helmetesAdjusted++;
                 }
             }
