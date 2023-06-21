@@ -2,6 +2,9 @@
 	"allowAllHelmetsWithAllHeadsets": true,
 	"whatItDoes1": "Some helmets have 'BlockEarpiece' property which make it so you can't wear helmets with headsets. If you set this to true, mod toggles that property. For example, you can wear Altyn with Sordin",
 
+	"removeAllHelmetAndHeadsetRestrictions": true,
+	"whatItDoes4": "Some helmets can be used with some headsets, but not all. As example, SSh-68 cannot be used with M32, but can be used with ComTac 4. If you set this to true, mod will clear ALL conflicting items from headsets and helmets, so those helmets will be wearable with wider range of headsets. It might also remove some other gear that's defined as 'incompatible' but generally it should be fine. For example, you can wear SSh-68 with M32 headset",
+
 	"allowAllFacemasksWithAllHeadsets": true,
 	"whatItDoes2": "Some facemasks have 'BlockEarpiece' property which make it so you can't wear helmets with facemasks. If you set this to true, mod toggles that property. For example, you can wear Tagilla mask with Airframe",
 
