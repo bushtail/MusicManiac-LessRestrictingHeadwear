@@ -1,0 +1,11 @@
+{
+	"allowAllHelmetsWithAllHeadsets": true,
+	"whatItDoes1": "Some helmets have 'BlockEarpiece' property which make it so you can't wear helmets with headsets. If you set this to true, mod toggles that property. For example, you can wear Altyn with Sordin",
+
+	"allowAllFacemasksWithAllHeadsets": true,
+	"whatItDoes2": "Some facemasks have 'BlockEarpiece' property which make it so you can't wear helmets with facemasks. If you set this to true, mod toggles that property. For example, you can wear Tagilla mask with Airframe",
+
+	"allowAllFacemasksWithAllHelmets" : true,
+	"whatItDoes3": "Some facemasks have 'BlocksHeadwear' property (and in return, some helmets have 'BlocksFaceCover' property) which make it so you can't wear some helmets with facemasks. If you set this to true, mod toggles that property. For example, you can wear Glorious or Knight Facemask with Vulkan helmet"
+}
+	
