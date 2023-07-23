@@ -34,7 +34,8 @@ class LessRestrictingHedwear {
                 allowAllFacemasksWithAllHeadsets++;
             }
             // allowAllFacemasksWithAllHelmets - find all helmets and facecovers and unblock facecover/helmet slot
-            if (this.config.allowAllFacemasksWithAllHelmets && (itemDB[item]._parent == "5a341c4686f77469e155819e" || itemDB[item]._parent == "5a341c4086f77401f2541505") && (itemDB[item]._props.BlocksFaceCover || itemDB[item]._props.BlocksHeadwear)) {
+            if (this.config.allowAllFacemasksWithAllHelmets && (itemDB[item]._parent == "5a341c4686f77469e155819e" || itemDB[item]._parent == "5a341c4086f77401f2541505") && (itemDB[item]._props.BlocksFaceCover || itemDB[item]._props.BlocksHeadwear || itemDB[item]._props.ConflictingItems.length > 0)) {
+                itemDB[item]._props.ConflictingItems.length = 0;
                 itemDB[item]._props.BlocksFaceCover = false;
                 itemDB[item]._props.BlocksHeadwear = false;
                 allowAllFacemasksWithAllHelmets++;
