@@ -51,7 +51,7 @@ class LessRestrictingHedwear implements IPostDBLoadMod
 						removeAllHelmetAndHeadsetRestrictions++;
 					}
 					if (this.config.allowAllFacemasksWithAllHelmets && itemDB[item]._props.BlocksFaceCover) {
-						itemDB[item]._props.BlocksFaceCover = false;
+						itemDB[item]._props.BlocksHeadwear  = false;
 						allowAllFacemasksWithAllHelmets++;
 					}
 					if (this.config.removeAllFacemasksRestrictions && itemDB[item]._props.ConflictingItems.length > 0) {
