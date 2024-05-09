@@ -3,11 +3,21 @@ import { Ilogger } from "@spt-aki/models/spt/utils/Ilogger";
 import { IPostDBLoadMod } from "@spt-aki/models/external/IPostDBLoadMod";
 import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
 import { ItemHelper } from "@spt-aki/helpers/ItemHelper";
-import { BaseClasses } from  "@spt-aki/models/enums/BaseClasses";
+import { BaseClasses } from "@spt-aki/models/enums/BaseClasses";
 
-class LessRestrictingHedwear implements IPostDBLoadMod
+import { VFS } from "@spt-aki/utils/VFS";
+import { jsonc } from "jsonc";
+import path from "path";
+
+class LessRestrictingHeadwear implements IPostDBLoadMod
 {
-	private config = require("../config/config.json");
+	public mod: string;
+    public modShortName: string;
+
+	constructor() {
+        this.mod = "MusicManiac - Less Restricting Headwear";
+        this.modShortName = "LessRestrictingHeadwear";
+	}
 
 	public postDBLoad(container: DependencyContainer): void 
 	{
@@ -17,66 +27,62 @@ class LessRestrictingHedwear implements IPostDBLoadMod
 		const itemDB = tables.templates.items;
 		const itemHelper = container.resolve<ItemHelper>("ItemHelper");
 
-		let allowAllHelmetsWithAllHeadsets = 0, allowAllFacemasksWithAllHeadsets = 0, allowAllFacemasksWithAllHelmets = 0, removeAllHelmetAndHeadsetRestrictions = 0, removeAllFacemasksRestrictions = 0;
-
-		// 5a341c4686f77469e155819e - facecover
-		// 5645bcb74bdc2ded0b8b4578 - headphones
+		const vfs = container.resolve<VFS>("VFS");
+		const config = jsonc.parse(vfs.readFile(path.resolve(__dirname, "../config.jsonc")));
 		
 		for (let item in itemDB) {
 			if (itemDB[item]._type !== "Node") {
 				const itemId = itemDB[item]._id
-				if (itemHelper.isOfBaseclass(itemId, BaseClasses.HEADWEAR) && itemDB[item]._props.BlocksEarpiece) {
-					if (this.config.allowAllHelmetsWithAllHeadsets && itemDB[item]._props.BlocksEarpiece) {
-						itemDB[item]._props.BlocksEarpiece = false;
-						allowAllHelmetsWithAllHeadsets++;
+				if (itemHelper.isOfBaseclass(itemId, BaseClasses.HEADWEAR)) {
+					if (config.debug) {
+						logger.info(`[${this.modShortName}] adjusting item ${itemDB[item]._name} (id ${itemId} ) to match config values`);
 					}
-					if (this.config.removeAllHelmetAndHeadsetRestrictions && itemDB[item]._props.ConflictingItems.length > 0) {
-						itemDB[item]._props.ConflictingItems.length = 0;
-						removeAllHelmetAndHeadsetRestrictions++;
+					itemDB[item]._props.BlocksHeadwear = config.Headwear.removeBlocksHeadwear ? false : itemDB[item]._props.BlocksHeadwear;
+					itemDB[item]._props.BlocksEarpiece = config.Headwear.removeBlocksEarpiece ? false : itemDB[item]._props.BlocksEarpiece;
+					itemDB[item]._props.BlocksFaceCover = config.Headwear.removeBlocksFaceCover ? false : itemDB[item]._props.BlocksFaceCover;
+					itemDB[item]._props.BlocksEyewear = config.Headwear.removeBlocksEyewear ? false : itemDB[item]._props.BlocksEyewear;
+					itemDB[item]._props.ConflictingItems = config.Headwear.clearConflictingItems ? [] : itemDB[item]._props.ConflictingItems;
+				} else if (itemHelper.isOfBaseclass(itemId, BaseClasses.HEADPHONES)) {
+					if (config.debug) {
+						logger.info(`[${this.modShortName}] adjusting item ${itemDB[item]._name} (id ${itemId} ) to match config values`);
 					}
-					if (this.config.allowAllFacemasksWithAllHelmets && itemDB[item]._props.BlocksFaceCover) {
-						itemDB[item]._props.BlocksFaceCover = false;
-						allowAllFacemasksWithAllHelmets++;
+					itemDB[item]._props.BlocksHeadwear = config.Earpiece.removeBlocksHeadwear ? false : itemDB[item]._props.BlocksHeadwear;
+					itemDB[item]._props.BlocksEarpiece = config.Earpiece.removeBlocksEarpiece ? false : itemDB[item]._props.BlocksEarpiece;
+					itemDB[item]._props.BlocksFaceCover = config.Earpiece.removeBlocksFaceCover ? false : itemDB[item]._props.BlocksFaceCover;
+					itemDB[item]._props.BlocksEyewear = config.Earpiece.removeBlocksEyewear ? false : itemDB[item]._props.BlocksEyewear;
+					itemDB[item]._props.ConflictingItems = config.Earpiece.clearConflictingItems ? [] : itemDB[item]._props.ConflictingItems;
+				} else if (itemHelper.isOfBaseclass(itemId, BaseClasses.FACECOVER)) {
+					if (config.debug) {
+						logger.info(`[${this.modShortName}] adjusting item ${itemDB[item]._name} (id ${itemId} ) to match config values`);
 					}
+					itemDB[item]._props.BlocksHeadwear = config.FaceCover.removeBlocksHeadwear ? false : itemDB[item]._props.BlocksHeadwear;
+					itemDB[item]._props.BlocksEarpiece = config.FaceCover.removeBlocksEarpiece ? false : itemDB[item]._props.BlocksEarpiece;
+					itemDB[item]._props.BlocksFaceCover = config.FaceCover.removeBlocksFaceCover ? false : itemDB[item]._props.BlocksFaceCover;
+					itemDB[item]._props.BlocksEyewear = config.FaceCover.removeBlocksEyewear ? false : itemDB[item]._props.BlocksEyewear;
+					itemDB[item]._props.ConflictingItems = config.FaceCover.clearConflictingItems ? [] : itemDB[item]._props.ConflictingItems;
+				} else if (itemHelper.isOfBaseclass(itemId, BaseClasses.VISORS)) {
+					if (config.debug) {
+						logger.info(`[${this.modShortName}] adjusting item ${itemDB[item]._name} (id ${itemId} ) to match config values`);
+					}
+					itemDB[item]._props.BlocksHeadwear = config.Eyewear.removeBlocksHeadwear ? false : itemDB[item]._props.BlocksHeadwear;
+					itemDB[item]._props.BlocksEarpiece = config.Eyewear.removeBlocksEarpiece ? false : itemDB[item]._props.BlocksEarpiece;
+					itemDB[item]._props.BlocksFaceCover = config.Eyewear.removeBlocksFaceCover ? false : itemDB[item]._props.BlocksFaceCover;
+					itemDB[item]._props.BlocksEyewear = config.Eyewear.removeBlocksEyewear ? false : itemDB[item]._props.BlocksEyewear;
+					itemDB[item]._props.ConflictingItems = config.Eyewear.clearConflictingItems ? [] : itemDB[item]._props.ConflictingItems;
+				} else if (config.faceShields.includes(itemId)) {
+					if (config.debug) {
+						logger.info(`[${this.modShortName}] adjusting item ${itemDB[item]._name} (id ${itemId} ) to match config values`);
+					}
+					itemDB[item]._props.BlocksHeadwear = config.FaceShields.removeBlocksHeadwear ? false : itemDB[item]._props.BlocksHeadwear;
+					itemDB[item]._props.BlocksEarpiece = config.FaceShields.removeBlocksEarpiece ? false : itemDB[item]._props.BlocksEarpiece;
+					itemDB[item]._props.BlocksFaceCover = config.FaceShields.removeBlocksFaceCover ? false : itemDB[item]._props.BlocksFaceCover;
+					itemDB[item]._props.BlocksEyewear = config.FaceShields.removeBlocksEyewear ? false : itemDB[item]._props.BlocksEyewear;
+					itemDB[item]._props.ConflictingItems = config.FaceShields.clearConflictingItems ? [] : itemDB[item]._props.ConflictingItems;
 				}
-				if (itemHelper.isOfBaseclass(itemId, BaseClasses.HEADPHONES)) {
-					if (this.config.removeAllHelmetAndHeadsetRestrictions && itemDB[item]._props.ConflictingItems.length > 0) {
-						itemDB[item]._props.ConflictingItems.length = 0;
-						removeAllHelmetAndHeadsetRestrictions++;
-					}
-				}
-				if (itemHelper.isOfBaseclass(itemId, BaseClasses.FACECOVER)) {
-					if (this.config.allowAllFacemasksWithAllHeadsets && itemDB[item]._props.BlocksEarpiece) {
-						itemDB[item]._props.ConflictingItems.length = 0;
-						removeAllHelmetAndHeadsetRestrictions++;
-					}
-					if (this.config.allowAllFacemasksWithAllHelmets && itemDB[item]._props.BlocksFaceCover) {
-						itemDB[item]._props.BlocksHeadwear  = false;
-						allowAllFacemasksWithAllHelmets++;
-					}
-					if (this.config.removeAllFacemasksRestrictions && itemDB[item]._props.ConflictingItems.length > 0) {
-						itemDB[item]._props.ConflictingItems.length = 0;
-						removeAllFacemasksRestrictions++;
-					}
-				}
-
 			}
 		}
-
-		for (const id of this.config.faceshieldsToCleanConflictingItemsFrom) {
-			if (itemDB[id]._props.ConflictingItems.length > 0) {
-				itemDB[id]._props.ConflictingItems.length = 0;
-				removeAllFacemasksRestrictions++;
-			}
-		}
-
-		logger.info("[Less Restricting Headwear] MusicManiac - Less Restricting Headwear Loaded:");
-		logger.info("[Less Restricting Headwear] " + allowAllHelmetsWithAllHeadsets + " helmets modified to allow headphones");
-		logger.info("[Less Restricting Headwear] " + allowAllFacemasksWithAllHeadsets + " facemasks modified to allow headphones");
-		logger.info("[Less Restricting Headwear] " + allowAllFacemasksWithAllHelmets + " facemasks and helmets modified to allow facemask+helmet combo");
-		logger.info("[Less Restricting Headwear] " + removeAllHelmetAndHeadsetRestrictions + " helmets/headphones conflicting items have been purged");
-		logger.info("[Less Restricting Headwear] " + removeAllFacemasksRestrictions + " facemasks conflicting items have been purged");
+		logger.info(`[${this.modShortName}] ${this.mod} Loaded`);
 	}
 }
 
-module.exports = { mod: new LessRestrictingHedwear() }
+module.exports = { mod: new LessRestrictingHeadwear() }
