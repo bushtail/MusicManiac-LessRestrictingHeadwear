@@ -1,11 +1,11 @@
 import { DependencyContainer } from "tsyringe";
-import { Ilogger } from "@spt-aki/models/spt/utils/Ilogger";
-import { IPostDBLoadMod } from "@spt-aki/models/external/IPostDBLoadMod";
-import { DatabaseServer } from "@spt-aki/servers/DatabaseServer";
-import { ItemHelper } from "@spt-aki/helpers/ItemHelper";
-import { BaseClasses } from "@spt-aki/models/enums/BaseClasses";
+import { Ilogger } from "@spt/models/spt/utils/Ilogger";
+import { IPostDBLoadMod } from "@spt/models/external/IPostDBLoadMod";
+import { DatabaseServer } from "@spt/servers/DatabaseServer";
+import { ItemHelper } from "@spt/helpers/ItemHelper";
+import { BaseClasses } from "@spt/models/enums/BaseClasses";
 
-import { VFS } from "@spt-aki/utils/VFS";
+import { VFS } from "@spt/utils/VFS";
 import { jsonc } from "jsonc";
 import path from "path";
 
