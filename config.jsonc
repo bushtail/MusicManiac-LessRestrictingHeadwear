@@ -43,6 +43,7 @@
 	},
 
 	// face shields can't be found easily code-wise so here's list of all faceshields (unless I missed some). Use https://db.sp-tarkov.com/search to find item IDs to add them here.
+	// THIS LIST WAS LAST UPDATED IN SPT 3.8.X, I will not be updating this
 	"faceShields": [
 		"5c0e842486f77443a74d2976",
 		"5f60c85b58eff926626a60f7",
